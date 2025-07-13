@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <%- include('../../partials/navbar') %>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <%- include('../../partials/sidebar') %>
+            
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <%- include('../../partials/alerts') %>
+                
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Gestión de Usuarios</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <a href="/usuarios/nuevo" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Nuevo Usuario
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <% if (usuarios && usuarios.length > 0) { %>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Email</th>
+                                            <th>Fecha de Registro</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% usuarios.forEach(usuario => { %>
+                                            <tr>
+                                                <td><%= usuario.nombre %></td>
+                                                <td><%= usuario.email %></td>
+                                                <td><%= new Date(usuario.createdAt).toLocaleDateString() %></td>
+                                                <td>
+                                                    <div class="btn-group" role="group">
+                                                        <a href="/usuarios/<%= usuario._id %>/editar" class="btn btn-sm btn-outline-primary">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                        <form method="POST" action="/usuarios/<%= usuario._id %>?_method=DELETE" style="display: inline;">
+                                                            <button type="submit" class="btn btn-sm btn-outline-danger" 
+                                                                    onclick="return confirm('¿Estás seguro de eliminar este usuario?')">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <% } else { %>
+                            <div class="text-center py-5">
+                                <i class="fas fa-user-friends fa-3x text-muted mb-3"></i>
+                                <h5 class="text-muted">No hay usuarios registrados</h5>
+                                <p class="text-muted">Comienza agregando tu primer usuario</p>
+                                <a href="/usuarios/nuevo" class="btn btn-primary">
+                                    <i class="fas fa-plus me-2"></i>Agregar Usuario
+                                </a>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <%- include('../../partials/footer') %>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

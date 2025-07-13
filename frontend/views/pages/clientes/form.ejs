@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <%- include('../../partials/navbar') %>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <%- include('../../partials/sidebar') %>
+            
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <%- include('../../partials/alerts') %>
+                
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2"><%= cliente ? 'Editar Cliente' : 'Nuevo Cliente' %></h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <a href="/clientes" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Volver
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <form method="<%= method %>" action="<%= action %>">
+                                    <div class="mb-3">
+                                        <label for="documento" class="form-label">Documento *</label>
+                                        <input type="text" class="form-control" id="documento" name="documento" 
+                                               value="<%= cliente ? cliente.documento : '' %>" required
+                                               minlength="7" maxlength="10">
+                                        <div class="form-text">Entre 7 y 10 caracteres</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="nombreCompleto" class="form-label">Nombre Completo *</label>
+                                        <input type="text" class="form-control" id="nombreCompleto" name="nombreCompleto" 
+                                               value="<%= cliente ? cliente.nombreCompleto : '' %>" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="fNacimiento" class="form-label">Fecha de Nacimiento *</label>
+                                        <input type="date" class="form-control" id="fNacimiento" name="fNacimiento" 
+                                               value="<%= cliente ? cliente.fNacimiento : '' %>" required>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                        <a href="/clientes" class="btn btn-secondary me-md-2">Cancelar</a>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save me-2"></i>
+                                            <%= cliente ? 'Actualizar' : 'Crear' %> Cliente
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <%- include('../../partials/footer') %>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

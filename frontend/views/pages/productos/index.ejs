@@ -37,7 +37,6 @@
                                             <th>Nombre</th>
                                             <th>Contenido</th>
                                             <th>Disponible</th>
-                                            <th>Fecha de Registro</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -53,7 +52,6 @@
                                                         <span class="badge bg-danger">No Disponible</span>
                                                     <% } %>
                                                 </td>
-                                                <td><%= new Date(producto.createdAt).toLocaleDateString() %></td>
                                                 <td>
                                                     <div class="btn-group" role="group">
                                                         <a href="/productos/<%= producto._id %>/editar" class="btn btn-sm btn-outline-primary">

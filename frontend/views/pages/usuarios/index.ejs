@@ -36,7 +36,6 @@
                                         <tr>
                                             <th>Nombre</th>
                                             <th>Email</th>
-                                            <th>Fecha de Registro</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -45,7 +44,6 @@
                                             <tr>
                                                 <td><%= usuario.nombre %></td>
                                                 <td><%= usuario.email %></td>
-                                                <td><%= new Date(usuario.createdAt).toLocaleDateString() %></td>
                                                 <td>
                                                     <div class="btn-group" role="group">
                                                         <a href="/usuarios/<%= usuario._id %>/editar" class="btn btn-sm btn-outline-primary">

@@ -35,6 +35,7 @@ app.use((req, res) => {
   res.status(404).render("pages/404", {
     title: "Página no encontrada",
     error: "La página que buscas no existe",
+    activeMenu: ""
   })
 })
 

@@ -37,7 +37,6 @@
                                             <th>Documento</th>
                                             <th>Nombre Completo</th>
                                             <th>Fecha de Nacimiento</th>
-                                            <th>Fecha de Registro</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -47,7 +46,6 @@
                                                 <td><%= cliente.documento %></td>
                                                 <td><%= cliente.nombreCompleto %></td>
                                                 <td><%= cliente.fNacimiento %></td>
-                                                <td><%= new Date(cliente.createdAt).toLocaleDateString() %></td>
                                                 <td>
                                                     <div class="btn-group" role="group">
                                                         <a href="/clientes/<%= cliente._id %>/editar" class="btn btn-sm btn-outline-primary">

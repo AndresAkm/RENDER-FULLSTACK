@@ -186,6 +186,18 @@
                 apiStatus.className = 'badge bg-danger';
             }
 
+            // Verificar estado de la base de datos
+            const dbResponse = await fetch('/api/db-health');
+            const dbStatus = document.getElementById('dbStatus');
+            if (dbResponse.ok) {
+                const dbData = await dbResponse.json();
+                dbStatus.textContent = dbData.status === 'OK' ? 'Conectada' : 'Desconectada';
+                dbStatus.className = dbData.status === 'OK' ? 'badge bg-success' : 'badge bg-danger';
+            } else {
+                dbStatus.textContent = 'Desconectada';
+                dbStatus.className = 'badge bg-danger';
+            }
+
             // Cargar estadísticas
             await loadStats();
             
@@ -216,7 +228,7 @@
                 const productos = await productosResponse.json();
                 document.getElementById('totalProductos').textContent = productos.length || 0;
                 
-                const disponibles = productos.filter(p => p.disponible).length;
+                const disponibles = productos.filter(producto => producto.disponible).length;
                 document.getElementById('productosDisponibles').textContent = disponibles || 0;
             } else {
                 document.getElementById('totalProductos').textContent = '0';

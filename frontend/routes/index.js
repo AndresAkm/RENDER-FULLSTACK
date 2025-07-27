@@ -26,6 +26,15 @@ router.get("/api/health", async (req, res) => {
   }
 })
 
+router.get("/api/db-health", async (req, res) => {
+  try {
+    const response = await apiClient.get("/db-health")
+    res.json(response.data)
+  } catch (error) {
+    res.status(500).json({ status: "ERROR", message: "No se pudo conectar a la base de datos" })
+  }
+})
+
 router.get("/api/clientes", async (req, res) => {
   try {
     const response = await apiClient.get("/clientes")

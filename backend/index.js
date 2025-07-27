@@ -3,6 +3,7 @@ const cors = require("cors")
 const app = express()
 const enrutador = require("./routes/router")
 require("dotenv").config()
+const mongoose = require("./config/connectiondb")
 
 const logger = require("morgan")
 app.use(logger("dev"))
@@ -20,15 +21,19 @@ app.use(express.json())
 
 app.use("/api/v2", enrutador)
 
-// Middleware de manejo de errores
-app.use((err, req, res, next) => {
-  console.error(err.stack)
-  res.status(500).json({ error: "Algo salió mal!" })
+// Ruta de health check
+app.get("/api/v2/health", (req, res) => {
+  res.status(200).json({ status: "OK", message: "Backend funcionando correctamente" })
 })
 
-// Ruta de health check
-app.get("/health", (req, res) => {
-  res.status(200).json({ status: "OK", message: "Backend funcionando correctamente" })
+app.get("/api/v2/db-health", async (req, res) => {
+  try {
+    if(mongoose.connection.readyState === 1) {
+      res.status(200).json({ status: "OK", message: "Base de datos conectada" })
+    }
+  } catch (error) {
+      res.status(500).json({ status: "ERROR", message: "Base de datos desconectada" })
+  }
 })
 
 const PORT = process.env.PORT || 8300

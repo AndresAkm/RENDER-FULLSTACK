@@ -1,4 +1,5 @@
 const modelUsuario = require("../models/usuarios.model")
+const sendMailToCreate = require("../config/services.email")
 
 const listarUsuarios = async (req, res) => {
   try {
@@ -26,15 +27,36 @@ const nuevoUsuario = async (req, res) => {
       nombre: req.body.name,
       email: req.body.email,
       contraseña: req.body.pass,
+    };
+
+    const crearUsuario = await modelUsuario.create(nuevoUsuario);
+    if (!crearUsuario) {
+      return res.status(400).json({ mensaje: "No se pudo crear el nuevo usuario" });
     }
 
-    const crearUsuario = await modelUsuario.create(nuevoUsuario)
-    if (crearUsuario) res.status(201).json({ mensaje: "Usuario creado con éxito", usuario: crearUsuario })
-    else res.status(400).json({ mensaje: "No se pudo crear el nuevo usuario" })
+    const emailSent = await sendMailToCreate.mailSettings(
+      process.env.EMAIL_USER,
+      nuevoUsuario.email,
+      "Nuevo Cliente Registrado",
+      `<p>Se ha registrado un nuevo cliente: 
+      ${nuevoUsuario.nombre} con email ${nuevoUsuario.email}.</p>`
+    );
+
+    console.log("✅ Correo de notificación enviado exitosamente", emailSent);
+
+    return res.status(200).json({
+      mensaje: "Usuario creado con éxito",
+      usuario: crearUsuario,
+    });
+
   } catch (error) {
-    res.status(500).json({ error: "Error interno del servidor", details: error.message })
+    console.error("❌ Error al crear usuario o enviar correo:", error);
+    return res.status(500).json({
+      error: "Error interno del servidor",
+      details: error.message,
+    });
   }
-}
+};
 
 const editarUsuario = async (req, res) => {
   try {

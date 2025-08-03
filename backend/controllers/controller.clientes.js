@@ -29,7 +29,9 @@ exports.nuevoCliente = async (req, res) => {
     }
 
     const insertarCliente = await modelCliente.create(nuevoCliente)
+
     if (insertarCliente) res.status(201).json({ mensaje: "Cliente registrado exitosamente", cliente: insertarCliente })
+
     else res.status(400).json({ mensaje: "No se pudo registrar el cliente" })
   } catch (error) {
     res.status(500).json({ error: "Error interno del servidor", details: error.message })
